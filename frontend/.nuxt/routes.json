@@ -1,0 +1,16 @@
+[
+  {
+    "name": "forum",
+    "path": "/forum",
+    "component": "C:\\\\Users\\\\Antoine\\\\Desktop\\\\Openclassrooms\\\\Projet 7\\\\Groupomania\\\\frontend\\\\pages\\\\forum.vue",
+    "chunkName": "pages/forum",
+    "_name": "_29fe8606"
+  },
+  {
+    "name": "index",
+    "path": "/",
+    "component": "C:\\\\Users\\\\Antoine\\\\Desktop\\\\Openclassrooms\\\\Projet 7\\\\Groupomania\\\\frontend\\\\pages\\\\index.vue",
+    "chunkName": "pages/index",
+    "_name": "_40a3182e"
+  }
+]
