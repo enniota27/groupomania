@@ -52,7 +52,7 @@ app.get('/api/articles/:id', (req, res) => {
  // Enregistre un article
 app.post('/api/articles', (req, res) => {
     let date = new Date();
-    let post = {idUsers: 1, article: "premier article ajouté avec l'API", dateHeure: date.getFullYear() + '-' + date.getDay() + '-' + date.getMonth() + ' ' + date.getHours() + ':' + date.getMinutes() + ':' + date.getSeconds() };
+    let post = {idUsers: 1, titre: "Ceci est un titre", corps: "premier article ajouté avec l'API", imageURL: "http://lesamisdebougainville.wifeo.com/images/0/003/003.JPG", dateHeure: date.getFullYear() + '-' + date.getDay() + '-' + date.getMonth() + ' ' + date.getHours() + ':' + date.getMinutes() + ':' + date.getSeconds() };
     let sql = `INSERT INTO articles SET ?`;
     let query = db.query(sql, post, (err, results) => {
         if(err) {

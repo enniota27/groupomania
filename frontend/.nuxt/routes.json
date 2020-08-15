@@ -1,10 +1,17 @@
 [
   {
-    "name": "forum",
-    "path": "/forum",
-    "component": "C:\\\\Users\\\\Antoine\\\\Desktop\\\\Openclassrooms\\\\Projet 7\\\\Groupomania\\\\frontend\\\\pages\\\\forum.vue",
-    "chunkName": "pages/forum",
-    "_name": "_29fe8606"
+    "name": "articles",
+    "path": "/articles",
+    "component": "C:\\\\Users\\\\Antoine\\\\Desktop\\\\Openclassrooms\\\\Projet 7\\\\Groupomania\\\\frontend\\\\pages\\\\articles\\\\index.vue",
+    "chunkName": "pages/articles/index",
+    "_name": "_455eed51"
+  },
+  {
+    "name": "articles-id",
+    "path": "/articles/:id",
+    "component": "C:\\\\Users\\\\Antoine\\\\Desktop\\\\Openclassrooms\\\\Projet 7\\\\Groupomania\\\\frontend\\\\pages\\\\articles\\\\_id.vue",
+    "chunkName": "pages/articles/_id",
+    "_name": "_1bba0ff9"
   },
   {
     "name": "index",
