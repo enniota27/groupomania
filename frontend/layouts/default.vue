@@ -11,7 +11,7 @@
                   <nuxt-link class="nav-link" active-class="active" to="/">Accueil</nuxt-link>
                 </li>
                 <li class="nav-item">
-                  <nuxt-link class="nav-link" active-class="active" to="/articles">Forum</nuxt-link>
+                  <nuxt-link class="nav-link" active-class="active" to="/articles">Actualiés</nuxt-link>
                 </li>
               </ul>
             </div>

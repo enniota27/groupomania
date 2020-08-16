@@ -1,5 +1,5 @@
 <template>
-    <div class="container">
+    <div class="container background-gray">
         <Loading v-if="loading"></Loading>
         <span v-if="errored" class="alert alert-danger" role="alert">Désolé, nous rencontrons actuellement des problèmes, veuillez-réessayer plus tard, merci de votre compréhension.</span>
         <h1 class="text-center">{{ article.titre }}</h1>
@@ -69,5 +69,9 @@ img {
     font-size: 20px;
     text-indent: 100px;
     text-align: justify;
+}
+.background-gray{
+  background-color: #F5F5F5 ;
+  padding: 20px;
 }
 </style>
