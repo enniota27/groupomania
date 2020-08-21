@@ -41,7 +41,11 @@ const axios = require('axios');
             },
             created: function() {
                 axios
-                    .get(`http://localhost:8080/api/messages/${this.$route.params.id}`)
+                    .get(`http://localhost:8080/api/messages/${this.$route.params.id}`, /*{
+                        headers: {
+                            Authorization: "Bearer " + localStorage.getItem("token")
+                        }
+                    }*/)
                     .then(response => (this.messages = response.data))
                     .catch(error => {
                         console.log(error);
@@ -54,7 +58,11 @@ const axios = require('axios');
                         .post('http://localhost:8080/api/messages', {
                             message: this.corpsMessage,
                             idarticles: this.idarticles
-                        })
+                        }, /*{
+                        headers: {
+                            Authorization: "Bearer " + localStorage.getItem("token")
+                        }
+                    }*/)
                         .then(response => console.log(response))
                         .catch(error => {
                             console.log(error);
@@ -64,7 +72,11 @@ const axios = require('axios');
                 deleteMessage: function(id) {
                     console.log(id);
                     axios
-                        .delete(`http://localhost:8080/api/messages/${id}`)
+                        .delete(`http://localhost:8080/api/messages/${id}`, /*{
+                        headers: {
+                            Authorization: "Bearer " + localStorage.getItem("token")
+                        }
+                    }*/)
                         .then(response => {
                             console.log('Message supprimé');
                             document.location.reload(true) })

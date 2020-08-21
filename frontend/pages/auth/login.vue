@@ -34,7 +34,7 @@ export default {
                         mail: this.mail,
                         mdp: this.mdp,
                     })
-                    .then(response => console.log(response))
+                    .then(response => localStorage.setItem('token', response.data.token))
                     .catch(error => {
                         console.log(error);
                         this.errored = true })

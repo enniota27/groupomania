@@ -41,7 +41,11 @@ const axios = require('axios');
     methods: {
         deleteArticle: function() {
             axios
-            .delete(this.url)
+            .delete(this.url, /*{
+                        headers: {
+                            Authorization: "Bearer " + localStorage.getItem("token")
+                        }
+                    }*/)
             .then(response => console.log('Article supprimé !'))
             .catch(error => {
                 console.log(error);
@@ -57,7 +61,11 @@ const axios = require('axios');
     },
     mounted: function() {
         axios
-            .get(this.url)
+            .get(this.url, {
+                        headers: {
+                            Authorization: "Bearer " + localStorage.getItem("token")
+                        }
+                    })
             .then(response => (this.article = response.data[0]))
             .catch(error => {
                 console.log(error);

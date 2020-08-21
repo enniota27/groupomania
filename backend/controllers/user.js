@@ -10,8 +10,8 @@ exports.login = (req, res, next) => {
         };
     res.status(200).json({
         userId: results[0].idUsers, // Renvoie son identifiant
-        token: jwt.sign( // Renvoie un Token
-            { userId: results[0].idUsers },
+        token: jwt.sign({ // Renvoie un Token
+            userId: results[0].idUsers },
             'RANDOM_TOKEN_SECRET',
             { expiresIn: '24h' }
             )

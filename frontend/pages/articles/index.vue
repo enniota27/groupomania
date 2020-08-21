@@ -36,7 +36,11 @@ const axios = require('axios');
             },
             created: function() {
                 axios
-                    .get(this.url)
+                    .get(this.url, {
+                        headers: {
+                            Authorization: "Bearer " + localStorage.getItem("token")
+                        }
+                    })
                     .then(response => (this.articles = response.data))
                     .catch(error => {
                         console.log(error);
