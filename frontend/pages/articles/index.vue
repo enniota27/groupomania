@@ -2,6 +2,7 @@
     <div class="container">
         <div>
         <h1>Les derniers articles publiée</h1>
+        <button type="button" class="btn btn-center"><nuxt-link class="btn btn-primary btn-center btn-lg" to="articles/new">Ajouter un article</nuxt-link></button>
         <Loading v-if="loading"></Loading>
         <span v-if="errored" class="alert alert-danger" role="alert">Désolé, nous rencontrons actuellement des problèmes, veuillez-réessayer plus tard, merci de votre compréhension.</span>
         </div>
@@ -13,7 +14,7 @@
                         <p class="card-text">{{ article.corps }}</p>
                         <p class="card-text font-weight-bold"></p>
                         <nuxt-link class="stretched-link" :to="`/articles/${article.idarticles}`"></nuxt-link>
-                        <div class="card-footer text-muted text-center">Antoine NAGY</div>
+                        <div class="card-footer text-muted text-center">{{ article.FirstName }} {{ article.LastName }} - {{ dateTransform(article.dateHeure) }}</div>
                     </div>
                 </div>
         </div>
@@ -41,7 +42,16 @@ const axios = require('axios');
                         console.log(error);
                         this.errored = true })
                     .finally(() => this.loading = false)
+            },
+            methods: {
+                dateTransform: function (dateHeureParam) {
+                    if (this.loading == false) {
+                        let date = dateHeureParam.split('T')[0].split('-');
+                        let heure = dateHeureParam.split('T')[1].split(':');
+                        return `${date[2]}/${date[1]}/${date[0]} à ${heure[0]}:${heure[1]}`
+                    }
                 }
+            }
         }
 </script>
 
@@ -57,14 +67,17 @@ h1 {
 }
 p {
     display: -webkit-box;
-  -webkit-line-clamp: 4;
-  -webkit-box-orient: vertical;
-  overflow: hidden; 
+    -webkit-line-clamp: 4;
+    -webkit-box-orient: vertical;
+    overflow: hidden; 
 }
 .anim-opacity-scale:hover {
 	opacity: 0.75;
 	transform: scale(1.1);
 	transition: transform 250ms ease-in-out, opacity 200ms ease-in-out;
 }
-
+.btn-center {
+    margin: auto;
+    display: block;
+}
 </style>

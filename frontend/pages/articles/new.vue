@@ -11,8 +11,8 @@
                     <textarea v-model="corps" class="form-control" id="corpsArticle" rows="10" placeholder="Corps de l'article" minlength="100" maxlength="1000" required></textarea>
                 </div>
                 <div class="form-group">
-                    <label for="image">Photo d'illustraction* :</label>
-                    <input type="file" class="form-control-file" id="image" accept="image/png, image/jpeg" required>
+                    <label for="image">Ajouter une image* :</label>
+                    <input v-on:change="handleFileUpload($event)" type="file" class="form-control-file" id="image" accept="image/*" required>
                 </div>
                 <p>* champs obligatoires</p>
                 <hr>
@@ -29,30 +29,28 @@ export default {
         return {
             titre: '',
             corps: '',
-            imageUrl: ''
+            file: ''
         }
     },
     methods: {
         donnees: function() {
                 axios
-                    .post('http://localhost:8080/api/articles')
+                    .post('http://localhost:8080/api/articles', {
+                        titre: this.titre,
+                        corps: this.corps,
+                        file: this.file
+                    })
                     .then(response => console.log(response))
                     .catch(error => {
                         console.log(error);
                         this.errored = true })
                     .finally(() => this.loading = false)
-                }
+        },
+        handleFileUpload: function(event) {
+            this.file = event.target.files[0];
+            console.log(this.file);
     }
-    /*created: function() {
-                axios
-                    .post('http://localhost:8080/api/articles')
-                    .then(response => console.log(response))
-                    .catch(error => {
-                        console.log(error);
-                        this.errored = true })
-                    .finally(() => this.loading = false)
-                }*/
-  
+}
 }
 
 </script>

@@ -4,5 +4,11 @@
   },
   "LazyLoading": {
     "description": "Auto imported from components/Loading.vue"
+  },
+  "Message": {
+    "description": "Auto imported from components/Message.vue"
+  },
+  "LazyMessage": {
+    "description": "Auto imported from components/Message.vue"
   }
 }

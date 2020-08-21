@@ -1,14 +1,19 @@
-<template>
+<template v-if="supp">
     <div class="container background-gray">
         <Loading v-if="loading"></Loading>
         <span v-if="errored" class="alert alert-danger" role="alert">Désolé, nous rencontrons actuellement des problèmes, veuillez-réessayer plus tard, merci de votre compréhension.</span>
         <h1 class="text-center">{{ article.titre }}</h1>
-        <h2 class="text-center font-weight-light h5">Ecrit par Antoine NAGY, le </h2>
+        <h2 class="text-center font-weight-light h5">Ecrit par {{ article.FirstName }} {{ article.LastName }}, le {{ dateTransform(article.dateHeure) }}</h2>
         <div class="text-center">
             <img :src=article.imageUrl> 
         </div>
             <p class="corps">{{ article.corps }}</p>
-
+        <div>
+            <button @click="deleteArticle" type="button" class="btn btn-danger btn-center btn-lg">Supprimer l'article</button>
+        </div>
+    <div>
+        <Message></Message>
+    </div>
     </div>
 </template>
 
@@ -24,19 +29,32 @@ const axios = require('axios');
                 titre: '',
                 corps: '',
                 imageUrl: '',
-                dateHeure: ''
+                dateHeure: '',
+                LastName: '',
+                FirstName: ''
             }],
             loading: true,
-            errored: false
+            errored: false,
+            supp: false
         }
     },
-    /*methods: {
-        ddmmyy: function () {
-            let date = this.article.dateHeure.split('T')[0].split('-');
-            let heure = this.article.dateHeure.split('T')[1].split(':');
-            return `${date[2]}/${date[1]}/${date[0]} à ${heure[0]}:${heure[1]}`
+    methods: {
+        deleteArticle: function() {
+            axios
+            .delete(this.url)
+            .then(response => console.log('Article supprimé !'))
+            .catch(error => {
+                console.log(error);
+                this.errored = true })
+        },
+        dateTransform: function (dateHeureParam) {
+            if (this.loading == false) {
+                let date = dateHeureParam.split('T')[0].split('-');
+                let heure = dateHeureParam.split('T')[1].split(':');
+                return `${date[2]}/${date[1]}/${date[0]} à ${heure[0]}:${heure[1]}`
+            }
         }
-    },*/
+    },
     mounted: function() {
         axios
             .get(this.url)
@@ -44,8 +62,8 @@ const axios = require('axios');
             .catch(error => {
                 console.log(error);
                 this.errored = true })
-            .finally(() => this.loading = false)
-        }
+            .finally(() => this.loading = false);
+    }
 }
     </script>
 
@@ -74,4 +92,10 @@ img {
   background-color: #F5F5F5 ;
   padding: 20px;
 }
+.btn-center {
+    margin: auto;
+    display: block;
+    margin-top: 50px;
+}
+
 </style>

@@ -2,7 +2,12 @@ const express = require('express');
 const router = express.Router();
 
 const articlesCtrl = require('../controllers/articles');
+const auth = require('../middleware/auth');
+const multer = require('../middleware/multer-config');
 
-router.get('/api/articles', articlesCtrl.getAllArticles); // Affichage de toutes les sauces
+router.get('/', articlesCtrl.getAllArticles); // Affichage de toutes les articles
+router.get('/:id', articlesCtrl.getOneArticle); // Affichage un article
+router.post('/', multer, articlesCtrl.createArticle); // Enregistre un article
+router.delete('/:id', articlesCtrl.deleteArticle); // Supprime un article
 
 module.exports = router;

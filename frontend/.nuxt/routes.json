@@ -14,6 +14,20 @@
     "_name": "_2f6fe4df"
   },
   {
+    "name": "auth-login",
+    "path": "/auth/login",
+    "component": "C:\\\\Users\\\\Antoine\\\\Desktop\\\\Openclassrooms\\\\Projet 7\\\\Groupomania\\\\frontend\\\\pages\\\\auth\\\\login.vue",
+    "chunkName": "pages/auth/login",
+    "_name": "_17b873c6"
+  },
+  {
+    "name": "auth-signup",
+    "path": "/auth/signup",
+    "component": "C:\\\\Users\\\\Antoine\\\\Desktop\\\\Openclassrooms\\\\Projet 7\\\\Groupomania\\\\frontend\\\\pages\\\\auth\\\\signup.vue",
+    "chunkName": "pages/auth/signup",
+    "_name": "_46a22ad8"
+  },
+  {
     "name": "articles-id",
     "path": "/articles/:id",
     "component": "C:\\\\Users\\\\Antoine\\\\Desktop\\\\Openclassrooms\\\\Projet 7\\\\Groupomania\\\\frontend\\\\pages\\\\articles\\\\_id.vue",
