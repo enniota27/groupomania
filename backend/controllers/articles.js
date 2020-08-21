@@ -29,6 +29,7 @@ exports.createArticle = (req, res, next) => {
     let post = {
         ...articleObject,
         //imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`, // http://localhost8080/images/nomdufichier
+        imageUrl: 'https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcTyVhxGgn5I_HGaRbJ2MplIuGchLEaQOTSUaw&usqp=CAU',
         idUsers: 1,
         dateHeure: `${date.getFullYear()}-${parseInt(date.getMonth())+1}-${date.getDate()} ${parseInt(date.getHours())+2}:${date.getMinutes()}:${date.getSeconds()}`
     };

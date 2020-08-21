@@ -34,7 +34,7 @@ const axios = require('axios');
                     errored: false
                 }
             },
-            created: function() {
+            mounted: function() {
                 axios
                     .get(this.url, {
                         headers: {

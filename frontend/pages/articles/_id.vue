@@ -41,11 +41,11 @@ const axios = require('axios');
     methods: {
         deleteArticle: function() {
             axios
-            .delete(this.url, /*{
+            .delete(this.url, {
                         headers: {
                             Authorization: "Bearer " + localStorage.getItem("token")
                         }
-                    }*/)
+                    })
             .then(response => console.log('Article supprimé !'))
             .catch(error => {
                 console.log(error);

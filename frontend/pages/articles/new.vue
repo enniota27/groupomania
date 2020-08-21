@@ -35,14 +35,15 @@ export default {
     methods: {
         donnees: function() {
                 axios
-                    .post('http://localhost:8080/api/articles', /*{
-                        headers: {
-                            Authorization: "Bearer " + localStorage.getItem("token")
-                        }
-                    },*/ {
+                    .post('http://localhost:8080/api/articles', {
                         titre: this.titre,
                         corps: this.corps,
-                        file: this.file
+                        //file: this.file
+                    },
+                    {
+                        headers: {
+                            Authorization: "Bearer " + localStorage.getItem("token")
+                        },
                     })
                     .then(response => console.log(response))
                     .catch(error => {
