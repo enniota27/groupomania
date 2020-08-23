@@ -1,3 +1,5 @@
+<!-- ANIMATION POUR LE CHARGEMENT -->
+
 <template>
     <div>
         <div class="containerAnim">

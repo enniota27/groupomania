@@ -1,13 +1,15 @@
+<!-- PAGE DE TOUS LES ARTICLES -->
+
 <template>
     <div class="container">
         <div>
-        <h1>Les derniers articles publiée</h1>
-        <button type="button" class="btn btn-center"><nuxt-link class="btn btn-primary btn-center btn-lg" to="articles/new">Ajouter un article</nuxt-link></button>
+        <h1>Les derniers articles publiés</h1>
+        <button v-if="!errored" type="button" class="btn btn-center"><nuxt-link class="btn btn-primary btn-center btn-lg" to="articles/new">Ajouter un article</nuxt-link></button>
         <Loading v-if="loading"></Loading>
-        <span v-if="errored" class="alert alert-danger" role="alert">Désolé, nous rencontrons actuellement des problèmes, veuillez-réessayer plus tard, merci de votre compréhension.</span>
+        <span v-if="errored" class="alert alert-danger d-flex justify-content-between text-center" role="alert">Vous ne pouvez pas accèder à ce contenu, connectez-vous ou alors nous rencontrons actuellement des problèmes, veuillez-réessayer plus tard, merci de votre compréhension.</span>
         </div>
         <div class="row">
-                <div v-for="article in articles" v-bind:key="article.idarticles" class="card shadow anim-opacity-scale">
+                <div v-for="article in articles" v-bind:key="article.idarticles" class="card shadow anim-opacity-scale mx-auto">
                     <img :alt="article.titre" class="card-img-top" :src="article.imageUrl">
                     <div class="card-body">
                         <h2 class="card-title h4">{{ article.titre }}</h2>
@@ -22,7 +24,7 @@
 </template>
 
 <script>
-import Loading from '@/components/Loading.vue'
+import Loading from '@/components/Loading.vue' // Composant de l'animation du chargement
 
 const axios = require('axios');
  export default {
@@ -34,6 +36,7 @@ const axios = require('axios');
                     errored: false
                 }
             },
+            // Récupération des articles
             mounted: function() {
                 axios
                     .get(this.url, {
@@ -47,6 +50,7 @@ const axios = require('axios');
                         this.errored = true })
                     .finally(() => this.loading = false)
             },
+            // Transforme la date
             methods: {
                 dateTransform: function (dateHeureParam) {
                     if (this.loading == false) {
@@ -65,8 +69,7 @@ h1 {
     color: RGB(219, 0, 121);
 }
 .card {
-    margin-top: 30px;
-    margin-right: 30px;
+    margin: 30px;
     max-width: 350px;
 }
 p {
@@ -75,6 +78,7 @@ p {
     -webkit-box-orient: vertical;
     overflow: hidden; 
 }
+/* Animation d'opacité et d'agrandissement */
 .anim-opacity-scale:hover {
 	opacity: 0.75;
 	transform: scale(1.1);
@@ -83,5 +87,8 @@ p {
 .btn-center {
     margin: auto;
     display: block;
+}
+.container {
+    margin-bottom: 100px;
 }
 </style>
