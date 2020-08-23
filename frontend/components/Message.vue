@@ -2,9 +2,9 @@
 <div>
     <div>
         <h3>Liste des messages</h3>
-        <div v-for="message in messages" v-bind:key="message.idmessages" class="message rounded" >
+        <div v-for="(message, index) in messages" v-bind:key="message.idmessages" class="message rounded" >
             <div class="nom">
-                {{ message.FirstName }}  {{ message.LastName }}<br>Le {{ dateTransform(message.dateHeure) }}<br><br><button class="btn btn-danger btn-sm" @click="deleteMessage(message.idmessages)">Supprimer</button>
+                {{ message.FirstName }}  {{ message.LastName }}<br>Le {{ dateTransform(message.dateHeure) }}<br><br><button v-if="auth[index]" class="btn btn-danger btn-sm" @click="deleteMessage(message.idmessages)">Supprimer</button>
             </div>
             <div class="corpsMessage">
                 {{ message.message }}
@@ -36,17 +36,18 @@ const axios = require('axios');
                     corpsMessage: '',
                     idarticles: this.$route.params.id,
                     loading: true,
-                    errored: false
+                    errored: false,
+                    auth: null
                 }
             },
-            created: function() {
+            mounted: function() {
                 axios
-                    .get(`http://localhost:8080/api/messages/${this.$route.params.id}`, /*{
+                    .get(`http://localhost:8080/api/messages/${this.$route.params.id}`, {
                         headers: {
                             Authorization: "Bearer " + localStorage.getItem("token")
                         }
-                    }*/)
-                    .then(response => (this.messages = response.data))
+                    })
+                    .then(response => (this.messages = response.data.message, this.auth = response.data.auth, console.log(this.auth[0])))
                     .catch(error => {
                         console.log(error);
                         this.errored = true })
@@ -58,11 +59,11 @@ const axios = require('axios');
                         .post('http://localhost:8080/api/messages', {
                             message: this.corpsMessage,
                             idarticles: this.idarticles
-                        }, /*{
+                        }, {
                         headers: {
                             Authorization: "Bearer " + localStorage.getItem("token")
                         }
-                    }*/)
+                    })
                         .then(response => console.log(response))
                         .catch(error => {
                             console.log(error);
@@ -72,11 +73,11 @@ const axios = require('axios');
                 deleteMessage: function(id) {
                     console.log(id);
                     axios
-                        .delete(`http://localhost:8080/api/messages/${id}`, /*{
+                        .delete(`http://localhost:8080/api/messages/${id}`, {
                         headers: {
                             Authorization: "Bearer " + localStorage.getItem("token")
                         }
-                    }*/)
+                    })
                         .then(response => {
                             console.log('Message supprimé');
                             document.location.reload(true) })

@@ -2,6 +2,7 @@ const express = require('express');
 const app = express();
 var mysql = require('mysql');
 const bodyParser = require('body-parser');
+const path = require('path');
 
 const articlesRoutes = require('./routes/articles');
 const messagesRoutes = require('./routes/messages');
@@ -32,6 +33,8 @@ app.use((req, res, next) => { // Ajoute CORS dans l'entête de toutes les requê
 });
 
 app.use(bodyParser.json());
+
+app.use('/images', express.static(path.join(__dirname, 'images')));
 
 app.use('/api/articles', articlesRoutes); // racine des routes
 app.use('/api/messages', messagesRoutes);

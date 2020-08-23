@@ -16,7 +16,7 @@
                 </div>
                 <p>* champs obligatoires</p>
                 <hr>
-                <button @click="donnees" type="submit" class="btn btn-primary mb-2">Envoyer l'article</button>
+                <button @click="sendArticle" type="submit" class="btn btn-primary mb-2">Envoyer l'article</button>
              </form>
          </div>
 </template>
@@ -33,13 +33,13 @@ export default {
         }
     },
     methods: {
-        donnees: function() {
+        sendArticle: function() {
+            const formData = new FormData();
+            formData.append('file', this.file);
+            formData.append('titre', this.titre);
+            formData.append('corps', this.corps);
                 axios
-                    .post('http://localhost:8080/api/articles', {
-                        titre: this.titre,
-                        corps: this.corps,
-                        //file: this.file
-                    },
+                    .post('http://localhost:8080/api/articles', formData,
                     {
                         headers: {
                             Authorization: "Bearer " + localStorage.getItem("token")

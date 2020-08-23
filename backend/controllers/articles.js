@@ -1,4 +1,11 @@
 var app = require('../app.js');
+const jwt = require('jsonwebtoken');
+
+function decodedUserId (headersAuth) {
+    const token = headersAuth.split(' ')[1];
+    const decodedToken = jwt.verify(token, 'RANDOM_TOKEN_SECRET');
+    return decodedToken.userId;
+}
 
 // Récupère tous les articles
 exports.getAllArticles = (req, res, next) => {
@@ -18,7 +25,7 @@ exports.getOneArticle = (req, res, next) => {
         if(err) {
             throw err
         };
-        res.status(200).json(results);
+        res.status(200).json({article: results, auth: decodedUserId(req.headers.authorization) === results[0].idUsers });
     });
 };
 
@@ -28,9 +35,8 @@ exports.createArticle = (req, res, next) => {
     const articleObject = req.body;
     let post = {
         ...articleObject,
-        //imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`, // http://localhost8080/images/nomdufichier
-        imageUrl: 'https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcTyVhxGgn5I_HGaRbJ2MplIuGchLEaQOTSUaw&usqp=CAU',
-        idUsers: 1,
+        imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`, // http://localhost8080/images/nomdufichier
+        idUsers: decodedUserId(req.headers.authorization),
         dateHeure: `${date.getFullYear()}-${parseInt(date.getMonth())+1}-${date.getDate()} ${parseInt(date.getHours())+2}:${date.getMinutes()}:${date.getSeconds()}`
     };
     let sql = `INSERT INTO articles SET ?`;
@@ -44,11 +50,21 @@ exports.createArticle = (req, res, next) => {
 
 // Supprime un article
 exports.deleteArticle = (req, res, next) => {
-    let sql = `DELETE FROM articles WHERE idarticles = ${req.params.id}`;
+    let sql = `SELECT idUsers FROM articles WHERE idarticles = ${req.params.id}`;
     let query = app.db.query(sql, (err, results) => {
         if(err) {
             throw err
+        } else {
+            if ( decodedUserId(req.headers.authorization) === results[0].idUsers ) {
+                let sql = `DELETE FROM articles WHERE idarticles = ${req.params.id}`;
+                let query = app.db.query(sql, (err, results) => {
+                    if(err) {
+                        throw err
+                    };
+                    res.status(200).send('Article supprimer');
+                });
+            };
         };
-        res.send('Article supprimer');
+        res.status(401).send('Suppression non autorisée');
     });
 };

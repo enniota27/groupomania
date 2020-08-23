@@ -3,13 +3,13 @@
         <Loading v-if="loading"></Loading>
         <span v-if="errored" class="alert alert-danger" role="alert">Désolé, nous rencontrons actuellement des problèmes, veuillez-réessayer plus tard, merci de votre compréhension.</span>
         <h1 class="text-center">{{ article.titre }}</h1>
-        <h2 class="text-center font-weight-light h5">Ecrit par {{ article.FirstName }} {{ article.LastName }}, le {{ dateTransform(article.dateHeure) }}</h2>
+        <h2 class="text-center font-weight-light h5">Ecrit par {{ article.FirstName }} {{ article.LastName }}, le {{ dateTransform(article.dateHeure) }} </h2>
         <div class="text-center">
             <img :src=article.imageUrl> 
         </div>
             <p class="corps">{{ article.corps }}</p>
         <div>
-            <button @click="deleteArticle" type="button" class="btn btn-danger btn-center btn-lg">Supprimer l'article</button>
+            <button v-if="this.auth" @click="deleteArticle" type="button" class="btn btn-danger btn-center btn-lg">Supprimer l'article</button>
         </div>
     <div>
         <Message></Message>
@@ -35,7 +35,8 @@ const axios = require('axios');
             }],
             loading: true,
             errored: false,
-            supp: false
+            supp: false,
+            auth: false
         }
     },
     methods: {
@@ -66,7 +67,7 @@ const axios = require('axios');
                             Authorization: "Bearer " + localStorage.getItem("token")
                         }
                     })
-            .then(response => (this.article = response.data[0]))
+            .then(response => (this.article = response.data.article[0], this.auth = response.data.auth))
             .catch(error => {
                 console.log(error);
                 this.errored = true })
