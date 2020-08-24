@@ -7,7 +7,7 @@
         <h1 class="text-center">{{ article.titre }}</h1>
         <h2 class="text-center font-weight-light h5">Ecrit par {{ article.FirstName }} {{ article.LastName }}, le {{ dateTransform(article.dateHeure) }} </h2>
         <div class="text-center">
-            <img :src=article.imageUrl class="img-fluid" :alt=article.titre> 
+            <img :src=article.imageUrl class="img-fluid taille" :alt=article.titre> 
         </div>
             <p class="corps">{{ article.corps }}</p>
         <div>
@@ -112,5 +112,8 @@ h2 {
 }
 .container {
     margin-bottom: 50px;
+}
+.taille {
+    max-height: 700px;
 }
 </style>

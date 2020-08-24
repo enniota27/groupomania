@@ -1,5 +1,6 @@
 var app = require('../app.js');
 const jwt = require('jsonwebtoken');
+const fs = require('fs'); // Avoir accès à des opérations liés aux systèmes de fichiers
 
 function decodedUserId (headersAuth) {
     const token = headersAuth.split(' ')[1];
@@ -50,18 +51,21 @@ exports.createArticle = (req, res, next) => {
 
 // Supprime un article
 exports.deleteArticle = (req, res, next) => {
-    let sql = `SELECT idUsers FROM articles WHERE idarticles = ${req.params.id}`;
-    let query = app.db.query(sql, (err, results) => {
+    let sql = `SELECT idUsers, imageUrl FROM articles WHERE idarticles = ${req.params.id}`;
+    let query = app.db.query(sql, (err, results1) => {
         if(err) {
             throw err
         } else {
-            if ( decodedUserId(req.headers.authorization) === results[0].idUsers ) {
+            if (decodedUserId(req.headers.authorization) === results1[0].idUsers) {
                 let sql = `DELETE FROM articles WHERE idarticles = ${req.params.id}`;
                 let query = app.db.query(sql, (err, results) => {
                     if(err) {
                         throw err
                     };
-                    res.status(200).send('Article supprimer');
+                    const filename = results1[0].imageUrl.split('/images/')[1]; // Nom de l'image
+                    fs.unlink(`images/${filename}`, () => { 
+                        res.status(200).send('Article supprimer');
+                    });
                 });
             };
         };

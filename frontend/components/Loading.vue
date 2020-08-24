@@ -14,12 +14,6 @@
     </div>
 </template>
 
-<script>
-export default {
-  name: 'Loading',
-}
-</script>
-
 <style scoped lang="scss">
 .charg {
     font-size: 20px;

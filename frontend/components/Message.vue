@@ -2,12 +2,14 @@
     <div>
         <div>
             <h3>Liste des messages</h3>
-            <div v-for="(message, index) in messages" v-bind:key="message.idmessages" class="message rounded" >
-                <div class="nom">
-                    {{ message.FirstName }}  {{ message.LastName }}<br>Le {{ dateTransform(message.dateHeure) }}<br><br><button v-if="auth[index]" class="btn btn-danger btn-sm" @click="deleteMessage(message.idmessages)">Supprimer</button>
-                </div>
-                <div class="corpsMessage">
-                    {{ message.message }}
+            <div v-for="(message, index) in messages" v-bind:key="message.idmessages" class="rounded" >
+                <div class="message">
+                    <div class="nom">
+                        {{ message.FirstName }}  {{ message.LastName }}<br><br>Le {{ dateTransform(message.dateHeure) }}<br><br><button v-if="auth[index]" class="btn btn-danger btn-sm" @click="deleteMessage(message.idmessages)">Supprimer</button>
+                    </div>
+                    <div class="corpsMessage">
+                        {{ message.message }}
+                    </div>
                 </div>
             </div>
         </div>
@@ -17,6 +19,7 @@
                 <div class="form-group">
                         <label for="corpsMessage">Entrez votre message :</label>
                         <textarea v-model="corpsMessage" class="form-control" id="corpsMessage" rows="4" placeholder="Message" minlength="1" maxlength="255" required></textarea>
+                        <p class="font-italic">Nombre de caractères : {{ corpsMessage.length }}/255</p>
                 </div>
                 <button @click="donnees" type="submit" class="btn btn-primary mb-2">Envoyer</button>
             </form>
@@ -28,7 +31,6 @@
 const axios = require('axios');
 
 export default {
-    name: 'Message',
     data: function () {
         return {
             messages: [],
@@ -103,20 +105,22 @@ h3 {
     margin: 30px 0 30px 0;
 }
 .message {
+    display: flex;
     border: 1px solid #ccc;
     min-height: 200px;
 }
 .nom {
-    float: left;
-    width: 25%;
+    width: 30%;
     text-align: center;
     padding: 15px;
+    margin: auto;
 }
 .corpsMessage {
-    float: right;
-    width: 75%;
+    width: 70%;
     background-color: #FFF;
-    min-height: 198px;
     padding: 15px;
+}
+textarea:valid {
+  box-shadow: 0 0 2px 1px green;
 }
 </style>

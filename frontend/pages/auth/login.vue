@@ -2,7 +2,7 @@
     <div class="container">
         <h1>Se connecter</h1>
         <br>
-        <form>
+        <form action="/articles">
             <div class="form-group">
                 <label for="mail">Entrez votre adresse mail* :</label>
                 <input v-model="mail" type="email" class="form-control" id="mail" placeholder="Votre email" maxlength="45" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" required>
@@ -28,24 +28,26 @@ export default {
         }
     },
     methods: {
+        // Envoi du mail/mdp
         auth: function() {
-                axios
-                    .post('http://localhost:8080/api/auth/login', {
-                        mail: this.mail,
-                        mdp: this.mdp,
-                    })
-                    .then(response => localStorage.setItem('token', response.data.token))
-                    .catch(error => {
-                        console.log(error);
-                        this.errored = true })
-                    .finally(() => this.loading = false)
+            axios
+                .post('http://localhost:8080/api/auth/login', {
+                    mail: this.mail,
+                    mdp: this.mdp,
+                })
+                // Si le mail/mdp est bon, l'API nous renvoie un token que l'on stoke dans le localStorage
+                .then(response => localStorage.setItem('token', response.data.token))
+                .catch(error => {
+                    console.log(error);
+                    this.errored = true })
+                .finally(() => this.loading = false)
         }
     }
 }
 
 </script>
 
-<style>
+<style scoped>
 input:valid, textarea:valid {
   box-shadow: 0 0 2px 1px green;
 }
