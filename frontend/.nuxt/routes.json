@@ -3,42 +3,42 @@
     "name": "articles",
     "path": "/articles",
     "component": "C:\\\\Users\\\\Antoine\\\\Desktop\\\\Openclassrooms\\\\Projet 7\\\\Groupomania\\\\frontend\\\\pages\\\\articles\\\\index.vue",
-    "chunkName": "pages/articles/index",
-    "_name": "_455eed51"
+    "chunkName": "pages/articles/index"
   },
   {
     "name": "articles-new",
     "path": "/articles/new",
     "component": "C:\\\\Users\\\\Antoine\\\\Desktop\\\\Openclassrooms\\\\Projet 7\\\\Groupomania\\\\frontend\\\\pages\\\\articles\\\\new.vue",
-    "chunkName": "pages/articles/new",
-    "_name": "_2f6fe4df"
+    "chunkName": "pages/articles/new"
   },
   {
     "name": "auth-login",
     "path": "/auth/login",
     "component": "C:\\\\Users\\\\Antoine\\\\Desktop\\\\Openclassrooms\\\\Projet 7\\\\Groupomania\\\\frontend\\\\pages\\\\auth\\\\login.vue",
-    "chunkName": "pages/auth/login",
-    "_name": "_17b873c6"
+    "chunkName": "pages/auth/login"
   },
   {
     "name": "auth-signup",
     "path": "/auth/signup",
     "component": "C:\\\\Users\\\\Antoine\\\\Desktop\\\\Openclassrooms\\\\Projet 7\\\\Groupomania\\\\frontend\\\\pages\\\\auth\\\\signup.vue",
-    "chunkName": "pages/auth/signup",
-    "_name": "_46a22ad8"
+    "chunkName": "pages/auth/signup"
   },
   {
     "name": "articles-id",
     "path": "/articles/:id",
     "component": "C:\\\\Users\\\\Antoine\\\\Desktop\\\\Openclassrooms\\\\Projet 7\\\\Groupomania\\\\frontend\\\\pages\\\\articles\\\\_id.vue",
-    "chunkName": "pages/articles/_id",
-    "_name": "_1bba0ff9"
+    "chunkName": "pages/articles/_id"
+  },
+  {
+    "name": "auth-id",
+    "path": "/auth/:id?",
+    "component": "C:\\\\Users\\\\Antoine\\\\Desktop\\\\Openclassrooms\\\\Projet 7\\\\Groupomania\\\\frontend\\\\pages\\\\auth\\\\_id.vue",
+    "chunkName": "pages/auth/_id"
   },
   {
     "name": "index",
     "path": "/",
     "component": "C:\\\\Users\\\\Antoine\\\\Desktop\\\\Openclassrooms\\\\Projet 7\\\\Groupomania\\\\frontend\\\\pages\\\\index.vue",
-    "chunkName": "pages/index",
-    "_name": "_40a3182e"
+    "chunkName": "pages/index"
   }
 ]

@@ -8,6 +8,7 @@ const _2f6fe4df = () => interopDefault(import('..\\pages\\articles\\new.vue' /* 
 const _17b873c6 = () => interopDefault(import('..\\pages\\auth\\login.vue' /* webpackChunkName: "pages/auth/login" */))
 const _46a22ad8 = () => interopDefault(import('..\\pages\\auth\\signup.vue' /* webpackChunkName: "pages/auth/signup" */))
 const _1bba0ff9 = () => interopDefault(import('..\\pages\\articles\\_id.vue' /* webpackChunkName: "pages/articles/_id" */))
+const _16a32eee = () => interopDefault(import('..\\pages\\auth\\_id.vue' /* webpackChunkName: "pages/auth/_id" */))
 const _40a3182e = () => interopDefault(import('..\\pages\\index.vue' /* webpackChunkName: "pages/index" */))
 
 // TODO: remove in Nuxt 3
@@ -46,6 +47,10 @@ export const routerOptions = {
     path: "/articles/:id",
     component: _1bba0ff9,
     name: "articles-id"
+  }, {
+    path: "/auth/:id?",
+    component: _16a32eee,
+    name: "auth-id"
   }, {
     path: "/",
     component: _40a3182e,
