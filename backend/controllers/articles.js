@@ -72,3 +72,30 @@ exports.deleteArticle = (req, res, next) => {
         res.status(401).send('Suppression non autorisée');
     });
 };
+
+// Modifie un article
+exports.updateArticle = (req, res, next) => {
+    let sql = `SELECT idUsers, imageUrl FROM articles WHERE idarticles = ${req.params.id}`;
+    let query = app.db.query(sql, (err, results1) => {
+        if(err) {
+            throw err
+        } else {
+            if (decodedUserId(req.headers.authorization) == results1[0].idUsers) {
+                if (req.file) {
+                    const filename = results1[0].imageUrl.split('/images/')[1]; // Nom de l'ancienne image
+                    fs.unlink(`images/${filename}`,() => {}) // Supprime l'ancienne image
+                    var newImageUrl = `${req.protocol}://${req.get('host')}/images/${req.file.filename}`; // http://localhost8080/images/nomdufichier
+                } else {
+                    var newImageUrl = results1[0].imageUrl;
+                }
+                let sql = `UPDATE articles SET titre = '${req.body.titre}', corps = '${req.body.corps}', imageUrl = '${newImageUrl}' WHERE idarticles = ${req.params.id}`;
+                let query = app.db.query(sql, (err, results) => {
+                    if(err) {
+                        throw err
+                    };
+                    res.status(200).send('Article modifié');
+                });
+            }
+        }
+    })
+}

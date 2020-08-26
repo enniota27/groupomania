@@ -10,8 +10,30 @@
             <img :src=article.imageUrl class="img-fluid taille" :alt=article.titre> 
         </div>
             <p class="corps">{{ article.corps }}</p>
-        <div>
-            <button v-if="this.auth" @click="deleteArticle" type="button" class="btn btn-danger btn-center btn-lg">Supprimer l'article</button>
+        <div class="btn-center">
+            <button v-if="this.auth" @click="deleteArticle" type="button" class="btn btn-danger btn-lg">Supprimer l'article</button>
+            <button v-if="this.auth" @click="updateArticle" type="button" class="btn btn-primary btn-lg">Modifier l'article</button>
+        </div>
+        <div class="modif" v-if="modif">
+            <form action="/articles">
+                 <div class="form-group">
+                     <label for="titre" class="font-weight-bold">Modifiez le titre de votre article* :</label>
+                     <input v-model="article.titre" type="text" class="form-control" id="titre" placeholder="Titre de l'article" minlength="20" maxlength="150" required>
+                     <p class="font-italic">Nombre de caractères : {{ article.titre.length }}/150 - minimum 20</p>
+                 </div>
+                 <div class="form-group">
+                    <label for="corpsArticle" class="font-weight-bold">Modifiez le corps de l'article* :</label>
+                    <textarea v-model="article.corps" class="form-control" id="corpsArticle" rows="10" placeholder="Corps de l'article" minlength="100" maxlength="1000" required></textarea>
+                     <p class="font-italic">Nombre de caractères : {{ article.corps.length }}/1000 - minimum 100</p>
+                </div>
+                <div class="form-group">
+                    <label for="image" class="font-weight-bold">Changez l'image (facultatif) :</label>
+                    <input v-on:change="handleFileUpload($event)" type="file" class="form-control-file" id="image" accept="image/*">
+                </div>
+                <p>* champs obligatoires</p>
+                <hr>
+                <button @click="sendUptade" type="submit" class="btn btn-primary mb-2">Envoyer les modifications</button>
+             </form>
         </div>
     <div>
         <Message></Message> <!-- COMPOSANT MESSAGE -->
@@ -33,12 +55,14 @@ const axios = require('axios');
                 imageUrl: '',
                 dateHeure: '',
                 LastName: '',
-                FirstName: ''
+                FirstName: '',
             }],
             loading: true,
             errored: false,
             supp: false,
-            auth: false
+            auth: false, 
+            modif: false,
+            file: '',
         }
     },
     methods: {
@@ -55,6 +79,13 @@ const axios = require('axios');
                 console.log(error);
                 this.errored = true })
         },
+        updateArticle: function() {
+            this.modif = true;
+        },
+        handleFileUpload: function(event) {
+            this.file = event.target.files[0];
+            //console.log(this.file);
+        },
         // Transforme la date
         dateTransform: function (dateHeureParam) {
             if (this.loading == false) {
@@ -62,7 +93,26 @@ const axios = require('axios');
                 let heure = dateHeureParam.split('T')[1].split(':');
                 return `${date[2]}/${date[1]}/${date[0]} à ${heure[0]}:${heure[1]}`
             }
-        }
+        },
+        sendUptade: function() {
+            const formData = new FormData();
+            formData.append('file', this.file);
+            formData.append('titre', this.article.titre);
+            formData.append('corps', this.article.corps);
+            console.log(formData);
+                axios
+                    .put(this.url, formData,
+                    {
+                        headers: {
+                            Authorization: "Bearer " + localStorage.getItem("token")
+                        },
+                    })
+                    .then(response => console.log(response))
+                    .catch(error => {
+                        console.log(error);
+                        this.errored = true })
+                    .finally(() => this.loading = false)
+        },
     },
     // Récupére les infos de l'article
     mounted: function() {
@@ -106,8 +156,8 @@ h2 {
   padding: 40px 40px 60px 40px;
 }
 .btn-center {
-    margin: auto;
-    display: block;
+    display: flex;
+    justify-content: space-around;
     margin-top: 50px;
 }
 .container {
@@ -115,5 +165,11 @@ h2 {
 }
 .taille {
     max-height: 700px;
+}
+.modif {
+    margin-top: 50px;
+}
+input:valid, textarea:valid {
+  box-shadow: 0 0 2px 1px green;
 }
 </style>
