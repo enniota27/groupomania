@@ -14,6 +14,9 @@
                 <li v-if="logon" class="nav-item">
                   <nuxt-link class="nav-link" active-class="active" to="/articles">Actualiés</nuxt-link>
                 </li>
+                <li v-if="logon" class="nav-item">
+                  <nuxt-link class="nav-link" active-class="active" :to="`/auth/${this.userId}`">Votre compte</nuxt-link>
+                </li>
                 <li v-if="logon" class="nav-item" @click="deco">
                   <nuxt-link class="nav-link" active-class="active" to="/">Déconnexion</nuxt-link>
                 </li>
@@ -36,12 +39,14 @@ export default {
   data: function () {
     return {
       logon: false, // Si l'utilisateur est connecté : true
+      userId: ''
     }
   },
   // Vérifie si l'utilisateur est connecté
   mounted: function() {
     if (localStorage.getItem("token")) {
       this.logon = true;
+      this.userId = localStorage.getItem('userId');
     }
     else {
       this.logon = false;

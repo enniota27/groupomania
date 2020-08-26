@@ -36,7 +36,7 @@ export default {
                     mdp: this.mdp,
                 })
                 // Si le mail/mdp est bon, l'API nous renvoie un token que l'on stoke dans le localStorage
-                .then(response => localStorage.setItem('token', response.data.token))
+                .then(response => (localStorage.setItem('token', response.data.token), localStorage.setItem('userId', response.data.userId)))
                 .catch(error => {
                     console.log(error);
                     this.errored = true })

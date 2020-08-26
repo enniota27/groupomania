@@ -60,3 +60,22 @@ exports.delete = (req, res, next) => {
         });
     }
 };
+
+//Modifie le compte d'un utilisateur
+exports.update = (req, res, next) => {
+    if (decodedUserId(req.headers.authorization) == req.params.id) {
+        if (req.body.data.newPassword != '') {
+            var mdp = req.body.data.oldPassword;
+        }
+        else {
+            var mdp = req.body.data.newPassword;
+        }
+        let sql = `UPDATE users SET LastName = '${req.body.data.LastName}', FirstName = '${req.body.data.FirstName}', Mail = '${req.body.data.Mail}', Password = '${mdp}' WHERE idUsers = ${req.params.id}`;
+        let query = app.db.query(sql, (err, results) => {
+            if(err) {
+                throw err
+            };
+            res.status(200).send('Compte modifié');
+        });
+    }
+}

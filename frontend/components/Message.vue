@@ -5,7 +5,7 @@
             <div v-for="(message, index) in messages" v-bind:key="message.idmessages" class="rounded" >
                 <div class="message">
                     <div class="nom">
-                        {{ message.FirstName }}  {{ message.LastName }}<br><br>Le {{ dateTransform(message.dateHeure) }}<br><br><button v-if="auth[index]" class="btn btn-danger btn-sm" @click="deleteMessage(message.idmessages)">Supprimer</button>
+                        <a :href="`../auth/${message.idUser}`">{{ message.FirstName }}  {{ message.LastName }}</a><br><br>Le {{ dateTransform(message.dateHeure) }}<br><br><button v-if="auth[index]" class="btn btn-danger btn-sm" @click="deleteMessage(message.idmessages)">Supprimer</button>
                     </div>
                     <div class="corpsMessage">
                         {{ message.message }}
@@ -49,7 +49,7 @@ export default {
                     Authorization: "Bearer " + localStorage.getItem("token")
                 }
             })
-            .then(response => (this.messages = response.data.message, this.auth = response.data.auth))
+            .then(response => (this.messages = response.data.message, this.auth = response.data.auth, console.log(response)))
             .catch(error => {
                 console.log(error);
                 this.errored = true })
