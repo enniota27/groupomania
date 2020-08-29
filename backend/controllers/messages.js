@@ -1,7 +1,5 @@
 var app = require('../app.js');
 const jwt = require('jsonwebtoken');
-const { json } = require('express');
-const { createPool } = require('mysql');
 
 function decodedUserId (headersAuth) {
     const token = headersAuth.split(' ')[1];
@@ -17,13 +15,13 @@ exports.getAllMessage = (req, res, next) => {
     let sql = `SELECT idmessages FROM messages WHERE messages.idarticles = ${req.params.id} ORDER BY idMessages DESC`;
     let query = app.db.query(sql, (err, results1) => {
         if(err) {
-            throw err
+            res.status(400).json({err});
         };
         for (let i = 0; i < results1.length; i++) {
-            let sql = `SELECT * FROM messages INNER JOIN users ON messages.idUser = users.idUsers WHERE messages.idmessages = ${results1[i].idmessages}`;
+            let sql = `SELECT idmessages, message, idarticles, idUser, LastName, FirstName, dateHeure FROM messages INNER JOIN users ON messages.idUser = users.idUsers WHERE messages.idmessages = ${results1[i].idmessages}`;
             let query = app.db.query(sql, (err, results) => {
                 message.push(results[0]);
-                auth.push(id == results[0].idUsers || id == 30);
+                auth.push(id == results[0].idUser || id == 30);
                 if (i == results1.length-1) {
                     res.status(200).json({message: message, auth: auth});
                 }
@@ -45,9 +43,10 @@ exports.createMessage = (req, res, next) => {
     let sql = `INSERT INTO messages SET ?`;
     let query = app.db.query(sql, post, (err, results) => {
         if(err) {
-            throw err
-        };
-        res.status(200).json(results);
+            res.status(400).json({err});
+        } else{
+            res.status(200).json(results);
+        }
     });
 };
 
@@ -57,15 +56,15 @@ exports.deleteMessage = (req, res, next) => {
     let sql1 = `SELECT idUser FROM messages WHERE idmessages = ${req.params.id}`;
     let query = app.db.query(sql1, (err1, results1) => {
         if(err1) {
-            res.status(404).send(err1);
+            res.status(400).send(err1);
         } else {
             if (id == results1[0].idUser || id == 30) {
                 let sql = `DELETE FROM messages WHERE idmessages = ${req.params.id}`;
                 let query = app.db.query(sql, (err, results) => {
                     if(err) {
-                        res.status(404).send(err);
+                        res.status(400).send(err);
                     } else {
-                        return res.status(200).send('Message supprimer');
+                        res.status(200).send('Message supprimer');
                     }
                 });
             } else {

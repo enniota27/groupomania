@@ -10,10 +10,10 @@ function decodedUserId (headersAuth) {
 
 // Récupère tous les articles
 exports.getAllArticles = (req, res, next) => {
-    let sql = 'SELECT * FROM articles INNER JOIN users ON articles.idUsers = users.idUsers ORDER BY idArticles DESC';
+    let sql = 'SELECT idarticles, articles.idUsers, titre, corps, imageUrl, dateHeure, LastName, FirstName FROM articles INNER JOIN users ON articles.idUsers = users.idUsers ORDER BY idArticles DESC';
     let query = app.db.query(sql, (err, results) => {
         if(err) {
-            throw err
+            res.status(400).json({err});
         };
         res.status(200).json(results);
     });
@@ -22,10 +22,10 @@ exports.getAllArticles = (req, res, next) => {
 // Récupère un article en fonction de son id
 exports.getOneArticle = (req, res, next) => {
     let id = decodedUserId(req.headers.authorization);
-    let sql = `SELECT * FROM articles INNER JOIN users ON articles.idUsers = users.idUsers WHERE idarticles = ${req.params.id}`;
+    let sql = `SELECT idarticles, articles.idUsers, titre, corps, imageUrl, dateHeure, LastName, FirstName FROM articles INNER JOIN users ON articles.idUsers = users.idUsers WHERE idarticles = ${req.params.id}`;
     let query = app.db.query(sql, (err, results) => {
         if(err) {
-            throw err
+            res.status(400).json({err});
         };
         res.status(200).json({article: results, auth: id == results[0].idUsers || id == 30 });
     });
@@ -44,7 +44,7 @@ exports.createArticle = (req, res, next) => {
     let sql = `INSERT INTO articles SET ?`;
     let query = app.db.query(sql, post, (err, results) => {
         if(err) {
-            throw err
+            res.status(400).json({err});
         };
         res.status(200).json(results);
     });
@@ -56,13 +56,13 @@ exports.deleteArticle = (req, res, next) => {
     let sql1 = `SELECT idUsers, imageUrl FROM articles WHERE idarticles = ${req.params.id}`;
     let query = app.db.query(sql1, (err1, results1) => {
         if(err1) {
-            res.status(404).send(err1);
+            res.status(400).send(err1);
         } else {
             if (id == results1[0].idUsers || id == 30) {
                 let sql = `DELETE FROM articles WHERE idarticles = ${req.params.id}`;
                 let query = app.db.query(sql, (err, results) => {
                     if(err) {
-                        res.status(404).send(err);
+                        res.status(400).send(err);
                     } else {
                         const filename = results1[0].imageUrl.split('/images/')[1]; // Nom de l'image
                         fs.unlink(`images/${filename}`, () => {});
@@ -82,7 +82,7 @@ exports.updateArticle = (req, res, next) => {
     let sql = `SELECT idUsers, imageUrl FROM articles WHERE idarticles = ${req.params.id}`;
     let query = app.db.query(sql, (err, results1) => {
         if(err) {
-            throw err
+            res.status(400).send(err);
         } else {
             if (id == results1[0].idUsers || id == 30) {
                 if (req.file) {
@@ -95,10 +95,12 @@ exports.updateArticle = (req, res, next) => {
                 let sql = `UPDATE articles SET titre = '${req.body.titre}', corps = '${req.body.corps}', imageUrl = '${newImageUrl}' WHERE idarticles = ${req.params.id}`;
                 let query = app.db.query(sql, (err, results) => {
                     if(err) {
-                        throw err
+                        res.status(400).send(err);
                     };
                     res.status(200).send('Article modifié');
                 });
+            } else {
+                res.status(401).send('Suppression non autorisée');
             }
         }
     })
