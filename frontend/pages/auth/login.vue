@@ -2,6 +2,7 @@
     <div class="container">
         <h1>Se connecter</h1>
         <br>
+        <span v-if="errored" class="alert alert-danger" role="alert">Adresse e-mail ou mot de passe invalide</span>
         <form action="/articles">
             <div class="form-group">
                 <label for="mail">Entrez votre adresse mail* :</label>
@@ -9,10 +10,10 @@
             </div>
             <div class="form-group">
                 <label for="mdp">Entrez votre mot de passe* :</label>
-                <input v-model="mdp" type="password" class="form-control" id="mdp" placeholder="Votre mot de passe" maxlength="25" required>
+                <input v-model="mdp" type="password" class="form-control" id="mdp" placeholder="Votre mot de passe" minlength="8" maxlength="25" required>
             </div>
             <br>
-            <button @click="auth" class="btn btn-primary mb-2">Se connecter</button>
+            <button @click="auth(event)" class="btn btn-primary mb-2">Se connecter</button>
         </form>
     </div>
 </template>
@@ -25,22 +26,27 @@ export default {
         return {
             mail: '',
             mdp: '',
+            errored: false
         }
     },
     methods: {
         // Envoi du mail/mdp
-        auth: function() {
-            axios
-                .post('http://localhost:8080/api/auth/login', {
-                    mail: this.mail,
-                    mdp: this.mdp,
-                })
-                // Si le mail/mdp est bon, l'API nous renvoie un token que l'on stoke dans le localStorage
-                .then(response => (localStorage.setItem('token', response.data.token), localStorage.setItem('userId', response.data.userId)))
-                .catch(error => {
-                    console.log(error);
-                    this.errored = true })
-                .finally(() => this.loading = false)
+        auth: function(event) {
+            localStorage.clear();
+            if (this.mail.length >= 3 && this.mdp.length >=8) {
+                axios
+                    .post('http://localhost:8080/api/auth/login', {
+                        mail: this.mail,
+                        mdp: this.mdp,
+                    })
+                    // Si le mail/mdp est bon, l'API nous renvoie un token que l'on stoke dans le localStorage
+                    .then(response => (localStorage.setItem('token', response.data.token), localStorage.setItem('userId', response.data.userId)))
+                    .catch(error => {
+                        console.log(error);
+                        this.errored = true;
+                        event.preventDefault(); })
+                    .finally(() => this.loading = false)
+            }
         }
     }
 }

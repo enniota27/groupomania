@@ -46,18 +46,20 @@ export default {
     methods: {
         // Envoi des données pour l'inscription
         signup: function() {
-            axios
-                .post('http://localhost:8080/api/auth/signup', {
-                    lastName: this.lastName,
-                    firstName: this.firstName,
-                    mail: this.mail,
-                    password: this.password
-                })
-                .then(response => console.log(response))
-                .catch(error => {
-                    console.log(error);
-                    this.errored = true })
-                .finally(() => this.loading = false)
+            if (this.lastName.length >= 1 && this.lastName.length <= 25 && this.firstName.length >=1 && this.firstName.length <= 25 && /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(this.mail) && /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?!.*\s).*$/.test(this.password)) {
+                axios
+                    .post('http://localhost:8080/api/auth/signup', {
+                        lastName: this.lastName,
+                        firstName: this.firstName,
+                        mail: this.mail,
+                        password: this.password
+                    })
+                    .then(response => console.log(response))
+                    .catch(error => {
+                        console.log(error);
+                        this.errored = true })
+                    .finally(() => this.loading = false)
+            }
         }
     }
 }

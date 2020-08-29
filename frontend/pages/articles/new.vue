@@ -37,22 +37,24 @@ export default {
     methods: {
         // Envoi l'article
         sendArticle: function() {
-            const formData = new FormData();
-            formData.append('file', this.file);
-            formData.append('titre', this.titre);
-            formData.append('corps', this.corps);
-                axios
-                    .post('http://localhost:8080/api/articles', formData,
-                    {
-                        headers: {
-                            Authorization: "Bearer " + localStorage.getItem("token")
-                        },
-                    })
-                    .then(response => console.log(response))
-                    .catch(error => {
-                        console.log(error);
-                        this.errored = true })
-                    .finally(() => this.loading = false)
+            if (this.titre.length >= 20 && this.titre.length <= 150 && this.corps.length >= 100 && this.corps.length <= 1000 && this.file != '') {
+                const formData = new FormData();
+                formData.append('file', this.file);
+                formData.append('titre', this.titre);
+                formData.append('corps', this.corps);
+                    axios
+                        .post('http://localhost:8080/api/articles', formData,
+                        {
+                            headers: {
+                                Authorization: "Bearer " + localStorage.getItem("token")
+                            },
+                        })
+                        .then(response => console.log(response))
+                        .catch(error => {
+                            console.log(error);
+                            this.errored = true })
+                        .finally(() => this.loading = false)
+            }
         },
         handleFileUpload: function(event) {
             this.file = event.target.files[0];

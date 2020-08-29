@@ -93,19 +93,21 @@ const axios = require('axios');
         },
         // Modifie le compte
         sendUpdate: function() {
-            axios
-                .put(this.url, {
-                    data: this.user
-                }, {
-                    headers: {
-                        Authorization: "Bearer " + localStorage.getItem("token")
-                }
-                })
-                .then(response => console.log(response))
-                .catch(error => {
-                    console.log(error);
-                    this.errored = true })
-                .finally(() => this.loading = false)
+            if(this.user.LastName.length >= 1 && this.user.FirstName.length >= 1 && /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(this.user.Mail) && /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?!.*\s).*$/.test(this.user.oldPassword)) {
+                axios
+                    .put(this.url, {
+                        data: this.user
+                    }, {
+                        headers: {
+                            Authorization: "Bearer " + localStorage.getItem("token")
+                    }
+                    })
+                    .then(response => console.log(response))
+                    .catch(error => {
+                        console.log(error);
+                        this.errored = true })
+                    .finally(() => this.loading = false)
+            }
         }
     },
     // Récupére les infos de l'user

@@ -7,7 +7,7 @@
                     <div class="nom">
                         <a :href="`../auth/${message.idUser}`">{{ message.FirstName }}  {{ message.LastName }}</a><br><br>Le {{ dateTransform(message.dateHeure) }}<br><br><button v-if="auth[index]" class="btn btn-danger btn-sm" @click="deleteMessage(message.idmessages)">Supprimer</button>
                     </div>
-                    <div class="corpsMessage">
+                    <div class="overflow-break corpsMessage">
                         {{ message.message }}
                     </div>
                 </div>
@@ -58,7 +58,8 @@ export default {
     methods: {
         // Enregistre un message
         donnees: function() {
-            axios
+            if (this.corpsMessage.length >= 1 && this.corpsMessage.length <= 255) {
+                axios
                 .post('http://localhost:8080/api/messages', {
                     message: this.corpsMessage,
                     idarticles: this.idarticles
@@ -66,12 +67,13 @@ export default {
                 headers: {
                     Authorization: "Bearer " + localStorage.getItem("token")
                 }
-            })
+                })
                 .then(response => console.log(response))
                 .catch(error => {
                     console.log(error);
                     this.errored = true })
                 .finally(() => this.loading = false)
+            }
         },
         // Supprimer un message
         deleteMessage: function(id) {
@@ -122,5 +124,8 @@ h3 {
 }
 textarea:valid {
   box-shadow: 0 0 2px 1px green;
+}
+.overflow-break {
+  word-wrap: break-word;
 }
 </style>

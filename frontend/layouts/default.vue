@@ -29,7 +29,7 @@
     <nuxt />
     <!-- FOOTER -->
     <footer>
-      <div class="p-3 mb-2 bg-dark text-white text-center">© {{ new Date().getFullYear() }} Copyright - Groupomania</div>
+      <div class="p-3 mb-2 bg-dark text-white text-center">© {{ new Date().getFullYear() }} Copyright - Groupomania - CONNECT-E</div>
     </footer>
   </div>
 </template>

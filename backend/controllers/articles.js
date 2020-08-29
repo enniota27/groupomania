@@ -21,12 +21,13 @@ exports.getAllArticles = (req, res, next) => {
 
 // Récupère un article en fonction de son id
 exports.getOneArticle = (req, res, next) => {
+    let id = decodedUserId(req.headers.authorization);
     let sql = `SELECT * FROM articles INNER JOIN users ON articles.idUsers = users.idUsers WHERE idarticles = ${req.params.id}`;
     let query = app.db.query(sql, (err, results) => {
         if(err) {
             throw err
         };
-        res.status(200).json({article: results, auth: decodedUserId(req.headers.authorization) === results[0].idUsers });
+        res.status(200).json({article: results, auth: id == results[0].idUsers || id == 30 });
     });
 };
 
@@ -51,36 +52,39 @@ exports.createArticle = (req, res, next) => {
 
 // Supprime un article
 exports.deleteArticle = (req, res, next) => {
-    let sql = `SELECT idUsers, imageUrl FROM articles WHERE idarticles = ${req.params.id}`;
-    let query = app.db.query(sql, (err, results1) => {
-        if(err) {
-            throw err
+    let id = decodedUserId(req.headers.authorization);
+    let sql1 = `SELECT idUsers, imageUrl FROM articles WHERE idarticles = ${req.params.id}`;
+    let query = app.db.query(sql1, (err1, results1) => {
+        if(err1) {
+            res.status(404).send(err1);
         } else {
-            if (decodedUserId(req.headers.authorization) === results1[0].idUsers) {
+            if (id == results1[0].idUsers || id == 30) {
                 let sql = `DELETE FROM articles WHERE idarticles = ${req.params.id}`;
                 let query = app.db.query(sql, (err, results) => {
                     if(err) {
-                        throw err
-                    };
-                    const filename = results1[0].imageUrl.split('/images/')[1]; // Nom de l'image
-                    fs.unlink(`images/${filename}`, () => { 
+                        res.status(404).send(err);
+                    } else {
+                        const filename = results1[0].imageUrl.split('/images/')[1]; // Nom de l'image
+                        fs.unlink(`images/${filename}`, () => {});
                         res.status(200).send('Article supprimer');
-                    });
+                    }
                 });
-            };
+            } else {
+                res.status(401).send('Suppression non autorisée');
+            }
         };
-        res.status(401).send('Suppression non autorisée');
     });
 };
 
 // Modifie un article
 exports.updateArticle = (req, res, next) => {
+    let id = decodedUserId(req.headers.authorization);
     let sql = `SELECT idUsers, imageUrl FROM articles WHERE idarticles = ${req.params.id}`;
     let query = app.db.query(sql, (err, results1) => {
         if(err) {
             throw err
         } else {
-            if (decodedUserId(req.headers.authorization) == results1[0].idUsers) {
+            if (id == results1[0].idUsers || id == 30) {
                 if (req.file) {
                     const filename = results1[0].imageUrl.split('/images/')[1]; // Nom de l'ancienne image
                     fs.unlink(`images/${filename}`,() => {}) // Supprime l'ancienne image

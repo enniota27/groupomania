@@ -11,17 +11,17 @@ function decodedUserId (headersAuth) {
 exports.login = (req, res, next) => {
     let sql = `SELECT idUsers FROM users WHERE mail = '${req.body.mail}' AND password = '${req.body.mdp}' `;
     let query = app.db.query(sql, (err, results) => {
-        if(err) {
-            throw err
-        };
-    res.status(200).json({
-        userId: results[0].idUsers, // Renvoie son identifiant
-        token: jwt.sign({ // Renvoie un Token
-            userId: results[0].idUsers },
-            'RANDOM_TOKEN_SECRET',
-            { expiresIn: '24h' }
-            )
-        });
+        if(err || results =='') {
+            res.status(404).send('Utilisateur non trouvé');
+        } else {
+            res.status(200).json({
+                userId: results[0].idUsers, // Renvoie son identifiant
+                token: jwt.sign({ // Renvoie un Token
+                    userId: results[0].idUsers },
+                    'RANDOM_TOKEN_SECRET',
+                    { expiresIn: '24h' })
+            });
+        }
     });
 };    
 
@@ -39,18 +39,20 @@ exports.signup = (req, res, next) => {
 
 // Renvoie les données de l'utilisateur
 exports.profil = (req, res, next) => {
+    let id = decodedUserId(req.headers.authorization);
     let sql = `SELECT LastName, FirstName, Mail FROM users WHERE idUsers = ${req.params.id}`;
     let query = app.db.query(sql, (err, results) => {
         if(err) {
             throw err
         };
-        res.status(200).json({results: results, auth: decodedUserId(req.headers.authorization) == req.params.id });
+        res.status(200).json({results: results, auth: id == req.params.id || id == 30 });
     });
 };
 
 // Supprime le compte d'un utilisateur
 exports.delete = (req, res, next) => {
-    if (decodedUserId(req.headers.authorization) == req.params.id) {
+    let id = decodedUserId(req.headers.authorization);
+    if (id == req.params.id || id == 30) {
         let sql = `DELETE FROM users WHERE idUsers = ${req.params.id}`;
         let query = app.db.query(sql, (err, results) => {
             if(err) {
@@ -63,7 +65,8 @@ exports.delete = (req, res, next) => {
 
 //Modifie le compte d'un utilisateur
 exports.update = (req, res, next) => {
-    if (decodedUserId(req.headers.authorization) == req.params.id) {
+    let id = decodedUserId(req.headers.authorization);
+    if (id == req.params.id || id == 30) {
         if (req.body.data.newPassword != '') {
             var mdp = req.body.data.oldPassword;
         }

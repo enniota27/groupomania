@@ -4,12 +4,12 @@
     <div class="container background-gray">
         <Loading v-if="loading"></Loading>
         <span v-if="errored" class="alert alert-danger" role="alert">Désolé, nous rencontrons actuellement des problèmes, veuillez-réessayer plus tard, merci de votre compréhension.</span>
-        <h1 class="text-center">{{ article.titre }}</h1>
+        <h1 class="text-center overflow-break">{{ article.titre }}</h1>
         <h2 class="text-center font-weight-light h5">Ecrit par {{ article.FirstName }} {{ article.LastName }}, le {{ dateTransform(article.dateHeure) }} </h2>
         <div class="text-center">
             <img :src=article.imageUrl class="img-fluid taille" :alt=article.titre> 
         </div>
-            <p class="corps">{{ article.corps }}</p>
+            <p class="corps overflow-break">{{ article.corps }}</p>
         <div class="btn-center">
             <button v-if="this.auth" @click="deleteArticle" type="button" class="btn btn-danger btn-lg">Supprimer l'article</button>
             <button v-if="this.auth" @click="updateArticle" type="button" class="btn btn-primary btn-lg">Modifier l'article</button>
@@ -74,7 +74,7 @@ const axios = require('axios');
                             Authorization: "Bearer " + localStorage.getItem("token")
                         }
                     })
-            .then(response => console.log('Article supprimé !'))
+            .then(response => console.log('Article supprimé !'), document.location.href="/articles")
             .catch(error => {
                 console.log(error);
                 this.errored = true })
@@ -95,23 +95,25 @@ const axios = require('axios');
             }
         },
         sendUptade: function() {
-            const formData = new FormData();
-            formData.append('file', this.file);
-            formData.append('titre', this.article.titre);
-            formData.append('corps', this.article.corps);
-            console.log(formData);
-                axios
-                    .put(this.url, formData,
-                    {
-                        headers: {
-                            Authorization: "Bearer " + localStorage.getItem("token")
-                        },
-                    })
-                    .then(response => console.log(response))
-                    .catch(error => {
-                        console.log(error);
-                        this.errored = true })
-                    .finally(() => this.loading = false)
+            if (this.article.titre.length >= 20 && this.article.titre.length <= 150 && this.article.corps.length >= 100 && this.article.corps.length <= 1000) {
+                const formData = new FormData();
+                formData.append('file', this.file);
+                formData.append('titre', this.article.titre);
+                formData.append('corps', this.article.corps);
+                console.log(formData);
+                    axios
+                        .put(this.url, formData,
+                        {
+                            headers: {
+                                Authorization: "Bearer " + localStorage.getItem("token")
+                            },
+                        })
+                        .then(response => console.log(response))
+                        .catch(error => {
+                            console.log(error);
+                            this.errored = true })
+                        .finally(() => this.loading = false)
+            }
         },
     },
     // Récupére les infos de l'article
@@ -171,5 +173,8 @@ h2 {
 }
 input:valid, textarea:valid {
   box-shadow: 0 0 2px 1px green;
+}
+.overflow-break {
+  word-wrap: break-word;
 }
 </style>
