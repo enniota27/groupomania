@@ -12,7 +12,7 @@
             <p class="corps overflow-break">{{ article.corps }}</p>
         <div class="btn-center">
             <button v-if="this.auth" @click="deleteArticle" type="button" class="btn btn-danger btn-lg">Supprimer l'article</button>
-            <button v-if="this.auth" @click="updateArticle" type="button" class="btn btn-primary btn-lg">Modifier l'article</button>
+            <button v-if="this.auth" @click="updateArticle" type="button" class="btn btn-secondary btn-lg">Modifier l'article</button>
         </div>
         <div class="modif" v-if="modif">
             <form action="/articles">
@@ -32,7 +32,7 @@
                 </div>
                 <p>* champs obligatoires</p>
                 <hr>
-                <button @click="sendUptade" type="submit" class="btn btn-primary mb-2">Envoyer les modifications</button>
+                <button @click="sendUptade" type="submit" class="btn btn-secondary mb-2">Envoyer les modifications</button>
              </form>
         </div>
     <div>

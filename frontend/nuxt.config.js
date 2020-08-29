@@ -15,6 +15,9 @@ export default {
   ** See https://nuxtjs.org/api/configuration-head
   */
   head: {
+    htmlAttrs: {
+      lang: 'fr-fr',
+    },
     title: 'Groupomania',
     meta: [
       { charset: 'utf-8' },

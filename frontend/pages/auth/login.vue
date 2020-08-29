@@ -13,7 +13,7 @@
                 <input v-model="mdp" type="password" class="form-control" id="mdp" placeholder="Votre mot de passe" minlength="8" maxlength="25" required>
             </div>
             <br>
-            <button @click="auth(event)" class="btn btn-primary mb-2">Se connecter</button>
+            <button @click="auth(event)" class="btn btn-secondary mb-2">Se connecter</button>
         </form>
     </div>
 </template>

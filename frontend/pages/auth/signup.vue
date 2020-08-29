@@ -26,7 +26,7 @@
                     </small>
                 </div>
             </div>
-            <button @click="signup" class="btn btn-primary mb-2 btn-center">S'inscrire</button>
+            <button @click="signup" class="btn btn-secondary mb-2 btn-center">S'inscrire</button>
         </form>
     </div>
 </template>

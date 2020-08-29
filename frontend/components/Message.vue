@@ -21,7 +21,7 @@
                         <textarea v-model="corpsMessage" class="form-control" id="corpsMessage" rows="4" placeholder="Message" minlength="1" maxlength="255" required></textarea>
                         <p class="font-italic">Nombre de caractères : {{ corpsMessage.length }}/255</p>
                 </div>
-                <button @click="donnees" type="submit" class="btn btn-primary mb-2">Envoyer</button>
+                <button @click="donnees" type="submit" class="btn btn-secondary mb-2">Envoyer</button>
             </form>
         </div>
     </div>

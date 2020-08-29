@@ -3,6 +3,7 @@ const app = express();
 var mysql = require('mysql');
 const bodyParser = require('body-parser');
 const path = require('path');
+require('dotenv').config();
 
 const articlesRoutes = require('./routes/articles');
 const messagesRoutes = require('./routes/messages');
@@ -11,8 +12,8 @@ const userRoutes = require('./routes/user');
 // Création d'une connection à la base de donnée
 const db = mysql.createConnection({
   host     : 'localhost',
-  user     : 'root',
-  password : 'Antoine27130',
+  user     : process.env.SQL_USER,
+  password : process.env.SQL_PASSWORD,
   database : 'groupomania'
 });
 

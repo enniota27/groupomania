@@ -18,7 +18,7 @@
                 </div>
                 <p>* champs obligatoires</p>
                 <hr>
-                <button @click="sendArticle" type="submit" class="btn btn-primary mb-2">Envoyer l'article</button>
+                <button @click="sendArticle" type="submit" class="btn btn-secondary mb-2">Envoyer l'article</button>
              </form>
          </div>
 </template>

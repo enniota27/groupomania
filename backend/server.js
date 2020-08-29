@@ -1,4 +1,4 @@
-const http = require('http');
+const http = require('http'); // https pour le déploiement
 const app = require('./app');
 
 //Renvoie un port valide sous forme d'un numéro ou d'une string

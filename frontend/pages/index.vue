@@ -8,8 +8,8 @@
     </div>
     <!-- si l'utilisateur est connecté alors on cache les boutons "se connecter" et "s'inscrire" -->
     <div v-if="!logon" class="box">
-      <button type="button" class="btn btn-center"><nuxt-link class="btn btn-primary btn-center btn-lg" to="auth/login">Se connecter</nuxt-link></button>
-      <button type="button" class="btn btn-center"><nuxt-link class="btn btn-primary btn-center btn-lg" to="auth/signup">S'inscrire</nuxt-link></button>
+      <button type="button" class="btn btn-center"><nuxt-link class="btn btn-secondary btn-center btn-lg" to="auth/login">Se connecter</nuxt-link></button>
+      <button type="button" class="btn btn-center"><nuxt-link class="btn btn-secondary btn-center btn-lg" to="auth/signup">S'inscrire</nuxt-link></button>
     </div>
   </div>
 </template>

@@ -4,7 +4,7 @@
     <div class="container">
         <div>
         <h1>Les derniers articles publiés</h1>
-        <button v-if="!errored" type="button" class="btn btn-center"><nuxt-link class="btn btn-primary btn-center btn-lg" to="articles/new">Ajouter un article</nuxt-link></button>
+        <button v-if="!errored" type="button" class="btn btn-center"><nuxt-link class="btn btn-secondary btn-center btn-lg" to="articles/new">Ajouter un article</nuxt-link></button>
         <Loading v-if="loading"></Loading>
         <span v-if="errored" class="alert alert-danger d-flex justify-content-between text-center" role="alert">Vous ne pouvez pas accèder à ce contenu, connectez-vous ou alors nous rencontrons actuellement des problèmes, veuillez-réessayer plus tard, merci de votre compréhension.</span>
         </div>

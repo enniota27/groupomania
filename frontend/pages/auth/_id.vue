@@ -13,7 +13,7 @@
             <p><span class="font-weight-bold">Adresse mail:</span> <a :href="`mailto:${user.Mail}`">{{ user.Mail }}</a></p>
             <br>
             <div v-if="this.auth && !this.form">
-                <p>Modifier vos informations personnelles <button @click="updateUser" type="button" class="btn btn-primary">Modifier le compte</button></p>
+                <p>Modifier vos informations personnelles <button @click="updateUser" type="button" class="btn btn-secondary">Modifier le compte</button></p>
                 <p>Attention, action irréversible, cela supprimera tous vos articles et tous vos messages <button @click="deleteUser" type="button" class="btn btn-danger">Supprimer le compte</button></p>
             </div>
         </div>
@@ -48,7 +48,7 @@
                 Le mot de passe doit avoir au minimun 8 caractères avec au moins une majuscule et un chiffre.
             </small>
             <br>
-            <button @click="sendUpdate" class="btn btn-primary mb-2 btn-center">Modifier</button>
+            <button @click="sendUpdate" class="btn btn-secondary mb-2 btn-center">Modifier</button>
         </form>
     <div>
     </div>
