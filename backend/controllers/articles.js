@@ -22,8 +22,8 @@ exports.getAllArticles = (req, res, next) => {
 // Récupère un article en fonction de son id
 exports.getOneArticle = (req, res, next) => {
     let id = decodedUserId(req.headers.authorization);
-    let sql = `SELECT idarticles, articles.idUsers, titre, corps, imageUrl, dateHeure, LastName, FirstName FROM articles INNER JOIN users ON articles.idUsers = users.idUsers WHERE idarticles = ${req.params.id}`;
-    let query = app.db.query(sql, (err, results) => {
+    let sql = `SELECT idarticles, articles.idUsers, titre, corps, imageUrl, dateHeure, LastName, FirstName FROM articles INNER JOIN users ON articles.idUsers = users.idUsers WHERE idarticles = ?`;
+    let query = app.db.query(sql, req.params.id,(err, results) => {
         if(err) {
             res.status(400).json({err});
         };
@@ -53,14 +53,14 @@ exports.createArticle = (req, res, next) => {
 // Supprime un article
 exports.deleteArticle = (req, res, next) => {
     let id = decodedUserId(req.headers.authorization);
-    let sql1 = `SELECT idUsers, imageUrl FROM articles WHERE idarticles = ${req.params.id}`;
-    let query = app.db.query(sql1, (err1, results1) => {
+    let sql1 = `SELECT idUsers, imageUrl FROM articles WHERE idarticles = ?`;
+    let query = app.db.query(sql1, req.params.id, (err1, results1) => {
         if(err1) {
             res.status(400).send(err1);
         } else {
             if (id == results1[0].idUsers || id == 30) {
-                let sql = `DELETE FROM articles WHERE idarticles = ${req.params.id}`;
-                let query = app.db.query(sql, (err, results) => {
+                let sql = `DELETE FROM articles WHERE idarticles = ?`;
+                let query = app.db.query(sql, req.params.id, (err, results) => {
                     if(err) {
                         res.status(400).send(err);
                     } else {
@@ -79,8 +79,8 @@ exports.deleteArticle = (req, res, next) => {
 // Modifie un article
 exports.updateArticle = (req, res, next) => {
     let id = decodedUserId(req.headers.authorization);
-    let sql = `SELECT idUsers, imageUrl FROM articles WHERE idarticles = ${req.params.id}`;
-    let query = app.db.query(sql, (err, results1) => {
+    let sql = `SELECT idUsers, imageUrl FROM articles WHERE idarticles = ?`;
+    let query = app.db.query(sql, req.params.id, (err, results1) => {
         if(err) {
             res.status(400).send(err);
         } else {
@@ -92,8 +92,8 @@ exports.updateArticle = (req, res, next) => {
                 } else {
                     var newImageUrl = results1[0].imageUrl;
                 }
-                let sql = `UPDATE articles SET titre = '${req.body.titre}', corps = '${req.body.corps}', imageUrl = '${newImageUrl}' WHERE idarticles = ${req.params.id}`;
-                let query = app.db.query(sql, (err, results) => {
+                let sql = `UPDATE articles SET titre = ?, corps = ?, imageUrl = ? WHERE idarticles = ?`;
+                let query = app.db.query(sql, [req.body.titre, req.body.corps, newImageUrl, req.params.id], (err, results) => {
                     if(err) {
                         res.status(400).send(err);
                     };

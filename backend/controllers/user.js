@@ -10,8 +10,8 @@ function decodedUserId (headersAuth) {
 
 // Connection d'un utilisateur existant
 exports.login = (req, res, next) => {
-    let sql = `SELECT idUsers, password FROM users WHERE mail = '${req.body.mail}' `;
-    let query = app.db.query(sql, (err, results) => {
+    let sql = `SELECT idUsers, password FROM users WHERE mail = ? `;
+    let query = app.db.query(sql, req.body.mail,(err, results) => {
         if(err || results =='') {
             res.status(400).send('Utilisateur non trouvé');
         } else {
@@ -56,8 +56,8 @@ exports.signup = (req, res, next) => {
 // Renvoie les données de l'utilisateur
 exports.profil = (req, res, next) => {
     let id = decodedUserId(req.headers.authorization);
-    let sql = `SELECT LastName, FirstName, Mail FROM users WHERE idUsers = ${req.params.id}`;
-    let query = app.db.query(sql, (err, results) => {
+    let sql = `SELECT LastName, FirstName, Mail FROM users WHERE idUsers = ?`;
+    let query = app.db.query(sql, req.params.id, (err, results) => {
         if(err) {
             res.status(400).send(err);
         } else {
@@ -70,8 +70,8 @@ exports.profil = (req, res, next) => {
 exports.delete = (req, res, next) => {
     let id = decodedUserId(req.headers.authorization);
     if (id == req.params.id || id == 30) {
-        let sql = `DELETE FROM users WHERE idUsers = ${req.params.id}`;
-        let query = app.db.query(sql, (err, results) => {
+        let sql = `DELETE FROM users WHERE idUsers = ?`;
+        let query = app.db.query(sql, req.params.id, (err, results) => {
             if(err) {
                 res.status(400).send(err);
             } else {
@@ -88,8 +88,8 @@ exports.update = (req, res, next) => {
     let id = decodedUserId(req.headers.authorization);
     if (id == req.params.id || id == 30) {
         if (req.body.data.newPassword === undefined) {
-            let sql = `UPDATE users SET LastName = '${req.body.data.LastName}', FirstName = '${req.body.data.FirstName}', Mail = '${req.body.data.Mail}' WHERE idUsers = ${req.params.id}`;
-                let query = app.db.query(sql, (err, results) => {
+            let sql = `UPDATE users SET LastName = ?, FirstName = ?, Mail = ? WHERE idUsers = ?`;
+                let query = app.db.query(sql, [req.body.data.LastName, req.body.data.FirstName, req.body.data.Mail, req.params.id], (err, results) => {
                     if(err) {
                         res.status(400).send(err);
                     } else {
@@ -100,8 +100,8 @@ exports.update = (req, res, next) => {
             bcrypt.hash(req.body.data.newPassword, 10) // Hacher/crypter le mdp en 10 tours
                 .then(hash => {
                     let mdp = hash;
-                    let sql = `UPDATE users SET LastName = '${req.body.data.LastName}', FirstName = '${req.body.data.FirstName}', Mail = '${req.body.data.Mail}', Password = '${mdp}' WHERE idUsers = ${req.params.id}`;
-                    let query = app.db.query(sql, (err, results) => {
+                    let sql = `UPDATE users SET LastName = ?, FirstName = ?, Mail = ?, Password = ? WHERE idUsers = ?`;
+                    let query = app.db.query(sql, [req.body.data.LastName, req.body.data.FirstName, req.body.data.Mail, mdp, req.params.id], (err, results) => {
                         if(err) {
                             res.status(400).send(err);
                         } else {
