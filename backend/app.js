@@ -25,8 +25,8 @@ db.connect((err) => {
     console.log('Connecté à Mysql');
 });
  
-
-app.use((req, res, next) => { // Ajoute CORS dans l'entête de toutes les requêtes
+// Ajoute CORS dans l'entête de toutes les requêtes
+app.use((req, res, next) => {
     res.setHeader('Access-Control-Allow-Origin', '*');
     res.setHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content, Accept, Content-Type, Authorization');
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, PATCH, OPTIONS'); //Verbe que l'on autorise
@@ -37,12 +37,10 @@ app.use(bodyParser.json());
 
 app.use('/images', express.static(path.join(__dirname, 'images')));
 
-app.use('/api/articles', articlesRoutes); // racine des routes
+// racine des routes
+app.use('/api/articles', articlesRoutes);
 app.use('/api/messages', messagesRoutes);
 app.use('/api/auth', userRoutes);
 
 exports.db = db;
 module.exports = app;
-
-
-//db.end();

@@ -47,6 +47,8 @@ export default {
         // Envoi des données pour l'inscription
         signup: function() {
             if (this.lastName.length >= 1 && this.lastName.length <= 25 && this.firstName.length >=1 && this.firstName.length <= 25 && /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(this.mail) && /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?!.*\s).*$/.test(this.password)) {
+                this.lastName = this.lastName.replace(/[\|\/\\\{\[\]\}=\^\`\<\>\!]/g, ' '); 
+                this.firstName = this.firstName.replace(/[\|\/\\\{\[\]\}=\^\`\<\>\!]/g, ' '); 
                 axios
                     .post('http://localhost:8080/api/auth/signup', {
                         lastName: this.lastName,

@@ -96,6 +96,8 @@ const axios = require('axios');
         },
         sendUptade: function() {
             if (this.article.titre.length >= 20 && this.article.titre.length <= 150 && this.article.corps.length >= 100 && this.article.corps.length <= 1000) {
+                this.article.titre = this.article.titre.replace(/[\|\/\\\{\[\]\}=\^\`\<\>\!]/g, ' '); 
+                this.article.corps = this.article.corps.replace(/[\|\/\\\{\[\]\}=\^\`\<\>\!]/g, ' '); 
                 const formData = new FormData();
                 formData.append('file', this.file);
                 formData.append('titre', this.article.titre);

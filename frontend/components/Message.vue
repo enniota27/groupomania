@@ -5,7 +5,7 @@
             <div v-for="(message, index) in messages" v-bind:key="message.idmessages" class="rounded" >
                 <div class="message">
                     <div class="nom">
-                        <a :href="`../auth/${message.idUser}`">{{ message.FirstName }}  {{ message.LastName }}</a><br><br>Le {{ dateTransform(message.dateHeure) }}<br><br><button v-if="auth[index]" class="btn btn-danger btn-sm" @click="deleteMessage(message.idmessages)">Supprimer</button>
+                        <a class="link" :href="`../auth/${message.idUser}`">{{ message.FirstName }}  {{ message.LastName }}</a><br><br>Le {{ dateTransform(message.dateHeure) }}<br><br><button v-if="auth[index]" class="btn btn-danger btn-sm" @click="deleteMessage(message.idmessages)">Supprimer</button>
                     </div>
                     <div class="overflow-break corpsMessage">
                         {{ message.message }}
@@ -59,6 +59,7 @@ export default {
         // Enregistre un message
         donnees: function() {
             if (this.corpsMessage.length >= 1 && this.corpsMessage.length <= 255) {
+                this.corpsMessage = this.corpsMessage.replace(/[\|\/\\\{\[\]\}=\^\`\<\>]/g, ' '); 
                 axios
                 .post('http://localhost:8080/api/messages', {
                     message: this.corpsMessage,
@@ -127,5 +128,13 @@ textarea:valid {
 }
 .overflow-break {
   word-wrap: break-word;
+}
+.link {
+    color:black;
+    text-decoration: underline;
+}
+.link:hover {
+    color:RGB(219, 0, 121);
+    font-weight: bold;
 }
 </style>

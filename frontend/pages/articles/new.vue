@@ -38,6 +38,8 @@ export default {
         // Envoi l'article
         sendArticle: function() {
             if (this.titre.length >= 20 && this.titre.length <= 150 && this.corps.length >= 100 && this.corps.length <= 1000 && this.file != '') {
+                this.titre = this.titre.replace(/[\|\/\\\{\[\]\}=\^\`\<\>]/g, ' '); 
+                this.corps = this.corps.replace(/[\|\/\\\{\[\]\}=\^\`\<\>]/g, ' '); 
                 const formData = new FormData();
                 formData.append('file', this.file);
                 formData.append('titre', this.titre);

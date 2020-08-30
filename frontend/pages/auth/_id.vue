@@ -94,6 +94,8 @@ const axios = require('axios');
         // Modifie le compte
         sendUpdate: function() {
             if(this.user.LastName.length >= 1 && this.user.FirstName.length >= 1 && /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(this.user.Mail) && /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?!.*\s).*$/.test(this.user.oldPassword)) {
+                this.user.LastName = this.user.LastName.replace(/[\|\/\\\{\[\]\}=\^\`\<\>\!]/g, ' '); 
+                this.user.FirstName = this.user.FirstName.replace(/[\|\/\\\{\[\]\}=\^\`\<\>\!]/g, ' '); 
                 axios
                     .put(this.url, {
                         data: this.user
