@@ -102,6 +102,10 @@ LOCK TABLES `users` WRITE;
 INSERT INTO `users` VALUES (1,'NAGY','Antoine','nagy.antoine@gmail.com','$2b$10$oei1soaXq1cxmoW/y7DOPO7RIWYKORgNVQEAiTQg2yus0jRvDrl36'),(2,'DUPONT','Robert','robert@dupont.com','$2b$10$ktnCdQlEPHIrGO0eYc0/P.kZoasq5kveNZdY.y5GCmxgTFeJpV/sG'),(30,'ADMIN','Groupomania','admin@groupomania.fr','$2b$10$3WwPnf.1J8/yB.jXLcUkTezryyH5E3H7XG/eQASWltxHwkXLhZ7O2'),(52,'DFDSF','Dsfsdf','dsfds@dsf.fds','$2b$10$oei1soaXq1cxmoW/y7DOPO7RIWYKORgNVQEAiTQg2yus0jRvDrl36');
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
+
+--
+-- Dumping events for database 'groupomania'
+--
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -112,4 +116,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-08-31 14:41:58
+-- Dump completed on 2020-08-31 18:42:25

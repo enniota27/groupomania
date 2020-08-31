@@ -7,7 +7,7 @@ Le projet a été généré avec :
 
 ## Installation de la base de donnée
 
-Importation de la base de donnée depuis le fichier bdd.slq qui se trouve à la racine du dossier.
+Importé la base de donnée depuis le fichier bdd.slq qui se trouve à la racine du dossier.
 
 ## Fichier de configuation
 
