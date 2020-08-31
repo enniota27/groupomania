@@ -11,10 +11,10 @@ const userRoutes = require('./routes/user');
 
 // Création d'une connection à la base de donnée
 const db = mysql.createConnection({
-  host     : 'localhost',
+  host     : process.env.SQL_HOST,
   user     : process.env.SQL_USER,
   password : process.env.SQL_PASSWORD,
-  database : 'groupomania'
+  database : process.env.SQL_DB_NAME
 });
 
 // Connexion
