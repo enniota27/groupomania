@@ -13,7 +13,7 @@
                 <input v-model="mdp" type="password" class="form-control" id="mdp" placeholder="Votre mot de passe" minlength="8" maxlength="25" required>
             </div>
             <br>
-            <button @click="auth(event)" class="btn btn-secondary mb-2">Se connecter</button>
+            <button @click="auth" class="btn btn-secondary mb-2">Se connecter</button>
         </form>
     </div>
 </template>
@@ -32,6 +32,7 @@ export default {
     methods: {
         // Envoi du mail/mdp
         auth: function(event) {
+            //event.preventDefault();
             localStorage.clear();
             if (this.mail.length >= 3 && this.mdp.length >=8) {
                 axios
@@ -43,8 +44,7 @@ export default {
                     .then(response => (localStorage.setItem('token', response.data.token), localStorage.setItem('userId', response.data.userId)))
                     .catch(error => {
                         console.log(error);
-                        this.errored = true;
-                        event.preventDefault(); })
+                        this.errored = true;})
                     .finally(() => this.loading = false)
             }
         }

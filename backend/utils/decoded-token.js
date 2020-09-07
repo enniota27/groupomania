@@ -4,7 +4,7 @@ const jwt = require('jsonwebtoken');
 
 function decodedUserId (headersAuth) {
     const token = headersAuth.split(' ')[1];
-    const decodedToken = jwt.verify(token, 'RANDOM_TOKEN_SECRET');
+    const decodedToken = jwt.verify(token, process.env.TOKEN);
     return decodedToken.userId;
 }
 
